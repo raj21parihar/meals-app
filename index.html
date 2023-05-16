@@ -10,98 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        body {
-            background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
-            background-repeat: no-repeat;
-            scroll-behavior: smooth;
-            height: 100vh;
-        }
-
-        .container {
-            width: auto;
-            max-width: 65%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 0;
-        }
-
-        #search-bar {
-            opacity: 0.6;
-            font-weight: bold;
-            margin: 1rem auto;
-        }
-
-        ul {
-            height: 84vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        li {
-            font-size: 1.2rem;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            margin: 6px;
-            border-radius: 6px;
-        }
-
-        .meal-img {
-            vertical-align: middle;
-            width: 60px;
-            height: 60px;
-            padding: 6px;
-            border-radius: 10px;
-        }
-
-        /* width */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            border-radius: 10px;
-            background-color: #7dcfc0;
-            opacity: 0.6;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #3392a3;
-            border-radius: 10px;
-            opacity: 0.5;
-
-        }
-
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        a,
-        a:hover,
-        a:visited,
-        a:focus,
-        a:active {
-            text-decoration: none;
-            color: inherit;
-            outline: 0;
-        }
-
-        .fev-btn {
-            float: right;
-            padding: 13px;
-            cursor: pointer;
-        }
-
-        .fa-trash {
-            color: #e64141;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 <body>
     <main class="container">
         <div class="row alarm-region">
@@ -110,13 +19,6 @@
                     <input type="text" id="search-bar" class="form-control" placeholder="Type to search meal..">
                 </div>
                 <ul class="list-group rounded-0" id="search-result">
-                    <li>
-                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span>
-                            <a href="#"><b>${element.strMeal}</b> - ${element.strCategory} | ${element.strArea}</a>
-                        </span>
-                        <span style="text-align: right;">aa</span>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -146,7 +48,8 @@
         let list = document.getElementById("search-result");
         list.innerHTML = "";
         data.forEach((element, index) => {
-            list.innerHTML += `<li>
+            list.innerHTML +=
+                `<li>
                         <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
                         <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
                         <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
