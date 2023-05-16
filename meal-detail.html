@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meals App</title>
+    <!-- External CSS libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,23 +19,34 @@
         <div class="row alarm-region">
             <div class="row content-area">
                 <div class="col-md-12">
-                    <h1 class="page-heading" id="meal-name"></h1>
+                    <!-- Page heading -->
+                    <h1 class="page-heading d-inline-block" id="meal-name">-</h1>
+                    <h1 class="page-heading" style="float: right;">
+                        <!-- Links to other pages -->
+                        <a href="index.html" class="m-2"><i class="fa-solid fa-sm fa-list "></i></a>
+                        <a href="favourit.html"><i class="fa-regular fa-sm fa-heart"> </i></a>
+                    </h1>
                 </div>
                 <div class="col-5">
+                    <!-- Meal image and more info -->
                     <img id="meal-image" class="meal-img-big" src="" alt="meal-image">
-                </div>
-                <div class="col-7">
-                    <h6 class="sub-title">Category </h6>
-                    <p class="meal-detail" id="meal-category"> </p>
-                    <h6 class="sub-title">Instructions</h6>
-                    <p class="meal-detail" id="meal-instructions"> </p>
+                    <br>
+                    <br>
                     <h6 class="sub-title">More Info</h6>
                     <p class="meal-detail" id="">
+                        <!-- Links to external sources -->
                         <a href="" target="_blank" id="meal-video"><i class="fa-brands fa-youtube"></i> Youtube</a>
-                        <a href="" target="_blank" id="meal-source"><i
-                                class="fa-solid fa-arrow-up-right-from-square"></i> Source</a>
-
+                        <a href="" target="_blank" class="m-3" id="meal-source">
+                            <i class="fa-solid fa-sm fa-arrow-up-right-from-square"></i> Source
+                        </a>
                     </p>
+                </div>
+                <div class="col-7">
+                    <!-- Meal category and instructions -->
+                    <h6 class="sub-title">Category</h6>
+                    <p class="meal-detail" id="meal-category">-</p>
+                    <h6 class="sub-title">Instructions</h6>
+                    <p class="meal-detail" id="meal-instructions">-</p>
                 </div>
             </div>
         </div>
@@ -41,41 +54,32 @@
 </body>
 <script>
     function loadData() {
+        // Extract the "id" parameter from the URL query string
         let id = new URLSearchParams(window.location.search).get("id");
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + id, true);
         xhr.onload = function () {
             if (this.status === 200) {
                 let meal = JSON.parse(this.responseText).meals[0];
-                displyResult(meal);
+                displyResult(meal); // Display the meal details
             } else {
                 console.log("Error!");
             }
         };
         xhr.send();
     }
-    loadData();
-
+    loadData(); // Call the function to load the data
 
     function displyResult(m) {
         let title = `${m.strMeal} <span class="title-small"> (${m.strArea})</span>`;
         let moreInfo = ``;
+        // Update the HTML elements with the meal details
         document.getElementById("meal-name").innerHTML = title;
         document.getElementById("meal-image").src = m.strMealThumb;
         document.getElementById("meal-category").innerHTML = m.strCategory;
         document.getElementById("meal-instructions").innerHTML = m.strInstructions;
-        document.getElementById("meal-video").scr = m.strYoutube;
-        document.getElementById("meal-source").src = m.strSource;
-
-
-        // list.innerHTML = "";
-        // data.forEach(element => {
-        //     list.innerHTML += `< li >;
-        //                 <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-        //                 <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
-        //                 <span class="fev-btn" onclick="addFev(${element.idMeal})"> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
-        //             </li>`;
-        // });
+        document.getElementById("meal-video").href = m.strYoutube;
+        document.getElementById("meal-source").href = m.strSource;
     }
 </script>
 </html>

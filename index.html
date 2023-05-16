@@ -5,21 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meals App</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <main class="container">
         <div class="row alarm-region">
             <div class="col">
-                <div class="col">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Type to search meal..">
+                <div class="row">
+                    <div class="col-11">
+                        <!-- Search bar input -->
+                        <input type="text" id="search-bar" class="form-control" placeholder="Type to search meal..">
+                    </div>
+                    <div class="col-1">
+                        <!-- Link to favorites page -->
+                        <h1 class="page-heading pt-1" style="display: inline; float: right;">
+                            <a href="favourit.html"><i class="fa-regular fa-sm fa-heart "></i></a>
+                        </h1>
+                    </div>
                 </div>
                 <ul class="list-group rounded-0" id="search-result">
+                    <!-- Placeholder for search results -->
                 </ul>
             </div>
         </div>
@@ -30,42 +43,44 @@
     search.addEventListener("keyup", getResult);
     let searchResult = [];
 
+    // Function to retrieve search results from the API
     function getResult(e) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/search.php?s=' + this.value, true);
         xhr.onload = function () {
             if (this.status === 200) {
                 let meals = JSON.parse(this.responseText).meals;
-                searchResult = meals;
-                displyResult(meals);
+                searchResult = meals; // Store the search results
+                displyResult(meals); // Display the search results
             } else {
-
+                // Handle error
             }
         };
         xhr.send();
     }
 
+    // Function to display search results
     function displyResult(data) {
         let list = document.getElementById("search-result");
         list.innerHTML = "";
         data.forEach((element, index) => {
             list.innerHTML +=
                 `<li>
-                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span><a href="meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
-                        <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
-                    </li>`;
+                <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
+                <span><a href="meal-detail.html?id=${element.idMeal}" target="_blank"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
+                <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
+            </li>`;
         });
     }
 
+    // Function to add a meal to favorites
     function addFev(id, i) {
         let favoriteList = JSON.parse(localStorage.getItem("favoriteList")) || [];
         let d = favoriteList.filter(ele => ele.idMeal == id);
         if (!d.length) {
-            favoriteList.push(searchResult[i]);
-            localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
+            favoriteList.push(searchResult[i]); // Add the selected meal to the favoriteList
+            localStorage.setItem("favoriteList", JSON.stringify(favoriteList)); // Update the favoriteList in localStorage
         }
     }
-
 </script>
 </html>

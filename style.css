@@ -29,6 +29,7 @@ body {
 .page-heading {
     font-weight: bold;
     margin: 1rem;
+    margin-left: 0;
     font-size: 1.5rem;
 }
 
@@ -38,8 +39,7 @@ ul {
     overflow-x: hidden;
 }
 
-li,
-.content-area {
+li {
     font-size: 1.2rem;
     background: rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -50,8 +50,22 @@ li,
     border-radius: 6px;
 }
 
+.content-area {
+    justify-content: center;
+    align-items: center;
+    padding: 1.5vh 1.5vw;
+    margin: 6vh 0vw;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 .meal-detail {
     font-size: 0.9rem;
+    padding-right: 4px;
 }
 
 .meal-img {
@@ -72,7 +86,7 @@ li,
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
 }
 
 /* Track */
@@ -124,7 +138,7 @@ a:active {
 }
 
 #meal-instructions {
-    height: 180px;
+    height: 298px;
     overflow-y: auto;
     overflow-x: hidden;
 }
