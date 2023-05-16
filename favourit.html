@@ -17,7 +17,7 @@
         <div class="row alarm-region">
             <div class="col">
                 <div class="col">
-                    <h2>My favourite meals</h2>
+                    <h1 class="page-heading">My favourite meals</h1>
                 </div>
                 <ul class="list-group rounded-0" id="search-result">
                     <li>
@@ -56,7 +56,7 @@
             list.innerHTML +=
                 `<li id="meal-${element.idMeal}">
                     <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                    <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
+                    <span><a href="meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
                     <span class="fev-btn" onclick="removeFev(${element.idMeal})"> <i class="fa-solid fa-heart-circle-minus"></i> Remove favorite <span>
                 </li>`;
         });

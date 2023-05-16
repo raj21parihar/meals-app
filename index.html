@@ -52,7 +52,7 @@
             list.innerHTML +=
                 `<li>
                         <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
+                        <span><a href="meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
                         <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
                     </li>`;
         });
@@ -65,7 +65,6 @@
             favoriteList.push(searchResult[i]);
             localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
         }
-        console.log(favoriteList);
     }
 
 </script>

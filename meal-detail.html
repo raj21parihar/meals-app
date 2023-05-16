@@ -15,52 +15,67 @@
 <body>
     <main class="container">
         <div class="row alarm-region">
-            <div class="col">
-                <div class="row">
-                    test
+            <div class="row content-area">
+                <div class="col-md-12">
+                    <h1 class="page-heading" id="meal-name"></h1>
+                </div>
+                <div class="col-5">
+                    <img id="meal-image" class="meal-img-big" src="" alt="meal-image">
+                </div>
+                <div class="col-7">
+                    <h6 class="sub-title">Category </h6>
+                    <p class="meal-detail" id="meal-category"> </p>
+                    <h6 class="sub-title">Instructions</h6>
+                    <p class="meal-detail" id="meal-instructions"> </p>
+                    <h6 class="sub-title">More Info</h6>
+                    <p class="meal-detail" id="">
+                        <a href="" target="_blank" id="meal-video"><i class="fa-brands fa-youtube"></i> Youtube</a>
+                        <a href="" target="_blank" id="meal-source"><i
+                                class="fa-solid fa-arrow-up-right-from-square"></i> Source</a>
+
+                    </p>
                 </div>
             </div>
         </div>
     </main>
 </body>
 <script>
-    const search = document.getElementById("search-bar");
-    search.addEventListener("keyup", getResult);
-
-    function getResult(e) {
+    function loadData() {
+        let id = new URLSearchParams(window.location.search).get("id");
         let xhr = new XMLHttpRequest();
-        console.log(this.value);
-        xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/search.php?s=' + this.value, true);
+        xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + id, true);
         xhr.onload = function () {
             if (this.status === 200) {
-                let meals = JSON.parse(this.responseText).meals;
-                // document.getElementById("search-result").innerHTML = meals;
-                console.log(meals);
-                displyResult(meals);
+                let meal = JSON.parse(this.responseText).meals[0];
+                displyResult(meal);
             } else {
-
+                console.log("Error!");
             }
         };
         xhr.send();
     }
-
-    function displyResult(data) {
-        let list = document.getElementById("search-result");
-        list.innerHTML = "";
-        data.forEach(element => {
-            list.innerHTML += `<li>
-                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
-                        <span class="fev-btn" onclick="addFev(${element.idMeal})"> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
-                    </li>`;
-        });
+    loadData();
 
 
+    function displyResult(m) {
+        let title = `${m.strMeal} <span class="title-small"> (${m.strArea})</span>`;
+        let moreInfo = ``;
+        document.getElementById("meal-name").innerHTML = title;
+        document.getElementById("meal-image").src = m.strMealThumb;
+        document.getElementById("meal-category").innerHTML = m.strCategory;
+        document.getElementById("meal-instructions").innerHTML = m.strInstructions;
+        document.getElementById("meal-video").scr = m.strYoutube;
+        document.getElementById("meal-source").src = m.strSource;
+
+
+        // list.innerHTML = "";
+        // data.forEach(element => {
+        //     list.innerHTML += `< li >;
+        //                 <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
+        //                 <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
+        //                 <span class="fev-btn" onclick="addFev(${element.idMeal})"> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
+        //             </li>`;
+        // });
     }
-
-    function addFev(id) {
-        alert("Meal added to favorite !");
-    }
-
 </script>
 </html>
