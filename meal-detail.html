@@ -106,18 +106,9 @@
     <main class="container">
         <div class="row alarm-region">
             <div class="col">
-                <div class="col">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Type to search meal..">
+                <div class="row">
+                    test
                 </div>
-                <ul class="list-group rounded-0" id="search-result">
-                    <li>
-                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span>
-                            <a href="#"><b>${element.strMeal}</b> - ${element.strCategory} | ${element.strArea}</a>
-                        </span>
-                        <span style="text-align: right;">aa</span>
-                    </li>
-                </ul>
             </div>
         </div>
     </main>
@@ -125,15 +116,16 @@
 <script>
     const search = document.getElementById("search-bar");
     search.addEventListener("keyup", getResult);
-    let searchResult = [];
 
     function getResult(e) {
         let xhr = new XMLHttpRequest();
+        console.log(this.value);
         xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/search.php?s=' + this.value, true);
         xhr.onload = function () {
             if (this.status === 200) {
                 let meals = JSON.parse(this.responseText).meals;
-                searchResult = meals;
+                // document.getElementById("search-result").innerHTML = meals;
+                console.log(meals);
                 displyResult(meals);
             } else {
 
@@ -145,23 +137,19 @@
     function displyResult(data) {
         let list = document.getElementById("search-result");
         list.innerHTML = "";
-        data.forEach((element, index) => {
+        data.forEach(element => {
             list.innerHTML += `<li>
                         <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
                         <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
-                        <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
+                        <span class="fev-btn" onclick="addFev(${element.idMeal})"> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
                     </li>`;
         });
+
+
     }
 
-    function addFev(id, i) {
-        let favoriteList = JSON.parse(localStorage.getItem("favoriteList")) || [];
-        let d = favoriteList.filter(ele => ele.idMeal == id);
-        if (!d.length) {
-            favoriteList.push(searchResult[i]);
-            localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
-        }
-        console.log(favoriteList);
+    function addFev(id) {
+        alert("Meal added to favorite !");
     }
 
 </script>

@@ -107,7 +107,7 @@
         <div class="row alarm-region">
             <div class="col">
                 <div class="col">
-                    <input type="text" id="search-bar" class="form-control" placeholder="Type to search meal..">
+                    <h2>My favourite meals</h2>
                 </div>
                 <ul class="list-group rounded-0" id="search-result">
                     <li>
@@ -123,46 +123,34 @@
     </main>
 </body>
 <script>
-    const search = document.getElementById("search-bar");
-    search.addEventListener("keyup", getResult);
-    let searchResult = [];
-
-    function getResult(e) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'https://www.themealdb.com/api/json/v1/1/search.php?s=' + this.value, true);
-        xhr.onload = function () {
-            if (this.status === 200) {
-                let meals = JSON.parse(this.responseText).meals;
-                searchResult = meals;
-                displyResult(meals);
-            } else {
-
-            }
-        };
-        xhr.send();
+    function removeFev(id) {
+        let data = JSON.parse(localStorage.getItem("favoriteList")) || [];
+        let index = getMealIndex(data, id);
+        data.length && data.splice(index, 1);
+        localStorage.setItem("favoriteList", JSON.stringify(data));
+        document.getElementById("meal-" + id).classList.add("d-none");
     }
 
-    function displyResult(data) {
-        let list = document.getElementById("search-result");
-        list.innerHTML = "";
-        data.forEach((element, index) => {
-            list.innerHTML += `<li>
-                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
-                        <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
-                        <span onclick="addFev(${element.idMeal},${index})" class="fev-btn""> <i class="fa-regular fa-heart"> </i> Add to favorite <span>
-                    </li>`;
+    function getMealIndex(arr, mealId) {
+        arr.forEach((element, index) => {
+            if (element.idMeal == mealId)
+                return index;
         });
     }
 
-    function addFev(id, i) {
-        let favoriteList = JSON.parse(localStorage.getItem("favoriteList")) || [];
-        let d = favoriteList.filter(ele => ele.idMeal == id);
-        if (!d.length) {
-            favoriteList.push(searchResult[i]);
-            localStorage.setItem("favoriteList", JSON.stringify(favoriteList));
-        }
-        console.log(favoriteList);
+    function displayFevourit() {
+        let data = JSON.parse(localStorage.getItem("favoriteList")) || [];
+        let list = document.getElementById("search-result");
+        list.innerHTML = "";
+        data.forEach(element => {
+            list.innerHTML +=
+                `<li id="meal-${element.idMeal}">
+                        <span><img src="${element.strMealThumb}" alt="Meal Image" class="meal-img"></span>
+                        <span><a href="/meal-detail.html?id=${element.idMeal}"> <b>${element.strMeal}</b>  - ${element.strCategory} | ${element.strArea}</a></span>
+                        <span class="fev-btn" onclick="removeFev(${element.idMeal})"> <i class="fa-regular fa-heart"> </i> Remove favorite <span>
+                    </li>`;
+        });
     }
-
+    displayFevourit();
 </script>
 </html>
